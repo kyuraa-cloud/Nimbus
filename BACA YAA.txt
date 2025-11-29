@@ -1,4 +1,5 @@
-Makasih udah baca ini cumin contoh cara update code untuk ke gitnya lagi takut lupa caranyaa jadi disini kita ada tutorial pertama di download dlu aja gitnya
+Makasih udah baca ini cumin contoh cara update code untuk ke gitnya lagi takut lupa caranyaa 
+jadi disini kita ada tutorial pertama di download dlu aja gitnya
 
 pada cmd
 winget install --id Git.Git -e --source winget
@@ -8,3 +9,17 @@ abistu ikutin Langkah ini
 -	git add .
 - git commit -m"added new file" (ini buat upload file barunya) *sebenernya aga optional karna gw kurang ngerti :v
 -	git push origin main
+
+-----------------------------------------------------------------------------
+klo dari aksih salin link git nya trs pilih path yg folder htdoc
+trs cmd > ketik aja git clone https://github.com/kyuraa-cloud/Nimbus.git
+nanti foldernya otomatis ke buat sendiri tanpa hrs download zipnya 
+------------------------------------------------------------------------------
+kalo kalian udah selesai edit maka di push lagi ke githubnya
+"git add ." (ada spasi sblm titik)
+"git commit -m "(tulis komentar):
+"git push origin main"
+------------------------------------------------------------------------------
+kalo kalian mau ambil perubahan yg udah dilakuin sm tmn kalian, bisa ketik:
+"git pull origin main" (maka yg udah diedit/ tmbhin sm tmn kalian bakal keliatan)
+abistu klian edit edit deh dan jangan lupa di push lagii carany ky yg diatas
