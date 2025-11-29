@@ -6,5 +6,5 @@ winget install --id Git.Git -e --source winget
 abistu ikutin Langkah ini
 -	git init
 -	git add .
-- 	git commit -m"added new file" (ini buat upload file barunya
--	git push origin master
+- git commit -m"added new file" (ini buat upload file barunya) *sebenernya aga optional karna gw kurang ngerti :v
+-	git push origin main
