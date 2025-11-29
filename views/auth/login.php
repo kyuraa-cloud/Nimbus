@@ -52,7 +52,7 @@ ob_start();
     <input type="password" name="password" class="form-control"
            placeholder="Password" required>
 
-    <button class="btn-purple mt-2">Masuk</button>
+    <button class="btn-purple mt-2">Login</button>
 
     <div class="text-center mt-3">
         Don't have an account?
