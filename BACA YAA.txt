@@ -1,0 +1,10 @@
+Makasih udah baca ini cumin contoh cara update code untuk ke gitnya lagi takut lupa caranyaa jadi disini kita ada tutorial pertama di download dlu aja gitnya
+
+pada cmd
+winget install --id Git.Git -e --source winget
+
+abistu ikutin Langkah ini
+-	git init
+-	git add .
+- 	git commit -m"added new file" (ini buat upload file barunya
+-	git push origin master
