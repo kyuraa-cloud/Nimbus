@@ -1,0 +1,117 @@
+body {
+    background: linear-gradient(135deg, #4B2C82, #3B236B);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+
+.auth-wrapper {
+    width: 900px;
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.auth-left {
+    flex: 1;
+    background: linear-gradient(135deg, #5D3FA0, #6A4BB7);
+    padding: 40px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-left h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.auth-left p {
+    opacity: 0.9;
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+.auth-right {
+    flex: 1;
+    padding: 40px;
+    background: #ffffff;
+}
+
+.auth-right h3 {
+    color: #3F2E5C;
+    margin-bottom: 25px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.form-control:focus {
+    border-color: #7A5BD8;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(122, 91, 216, 0.25);
+}
+
+.btn-purple {
+    width: 100%;
+    background: #7A5BD8;
+    color: white;
+    padding: 10px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 16px;
+}
+
+.btn-purple:hover {
+    background: #6847c4;
+}
+
+.text-center a {
+    color: #5C4BDA;
+    text-decoration: none;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
+
+.error-box {
+    background: #fdecea;
+    color: #b71c1c;
+    border: 1px solid #f5c6cb;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.success-box {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .auth-wrapper {
+        flex-direction: column;
+        width: 90%;
+    }
+}
