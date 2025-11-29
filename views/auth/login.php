@@ -2,16 +2,19 @@
 session_start();
 require "../../config/db.php";
 
-// === PROSES LOGIN ===
 $err = "";
+
+// === PROSES LOGIN ===
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = strtolower(trim($_POST['email']));
+    $email = mysqli_real_escape_string($conn, $email);
+    $password = trim($_POST['password']);
+
 
     $q = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
-
-    if (mysqli_num_rows($q) === 1) {
+    
+    if ($q && mysqli_num_rows($q) === 1) {
         $user = mysqli_fetch_assoc($q);
 
         if (password_verify($password, $user['password'])) {
@@ -34,7 +37,6 @@ $leftDesc = "Log in to stay organized and manage your tasks effortlessly";
 
 ob_start();
 ?>
-
 <h3>Login</h3>
 
 <?php if ($err): ?>
@@ -43,14 +45,9 @@ ob_start();
 </div>
 <?php endif; ?>
 
-
 <form method="POST">
-
-    <input type="email" name="email" class="form-control"
-           placeholder="Email" required>
-
-    <input type="password" name="password" class="form-control"
-           placeholder="Password" required>
+    <input type="email" name="email" class="form-control" placeholder="Email" required>
+    <input type="password" name="password" class="form-control" placeholder="Password" required>
 
     <button class="btn-purple mt-2">Login</button>
 
@@ -63,4 +60,3 @@ ob_start();
 <?php
 $content = ob_get_clean();
 include __DIR__ . "/../layouts/auth_layout.php";
-

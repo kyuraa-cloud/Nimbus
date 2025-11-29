@@ -7,10 +7,10 @@ $success = "";
 // === PROSES REGISTER ===
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $name  = $_POST['name'];
-    $email = $_POST['email'];
-    $pass  = $_POST['password'];
-    $conf  = $_POST['password_confirmation'];
+    $name  = trim($_POST['name']);
+    $email = strtolower(trim($_POST['email']));
+    $pass  = trim($_POST['password']);
+    $conf  = trim($_POST['password_confirmation']);
 
     if ($pass != $conf) {
         $err = "Password tidak sama!";
