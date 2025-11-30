@@ -11,19 +11,16 @@ $title = "Dashboard";
 $active = "dashboard";
 
 $userId = $_SESSION['user_id'];
-// Total semua task user
+
 $q_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId");
 $totalTask = mysqli_fetch_assoc($q_total)['total'];
 
-// Status: to do
 $q_todo = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='to do'");
 $todo = mysqli_fetch_assoc($q_todo)['total'];
 
-// Status: in progress
 $q_progress = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='in progress'");
 $inProgress = mysqli_fetch_assoc($q_progress)['total'];
 
-// Status: done
 $q_done = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='done'");
 $done = mysqli_fetch_assoc($q_done)['total'];
 
@@ -68,15 +65,32 @@ ob_start();
     </div>
 </div>
 
-<!-- DEADLINE PRIORITY -->
-<h3 class="section-title">Deadline Priority:</h3>
+<!-- DEADLINE + CALENDAR -->
+<div class="row mt-1">
 
+    <!-- LEFT: DEADLINE PRIORITY -->
+    <div class="col-lg-7 col-md-12">
+        <h3 class="section-title">Deadline Priority:</h3>
 
+        <?php if (count($latestTasks) > 0): ?>
+            <?php foreach ($latestTasks as $task): ?>
+                <div class="card p-3 mb-3 shadow-sm border-0">
+                    <strong><?= htmlspecialchars($task['name']) ?></strong>
+                    <span class="text-muted d-block">
+                        Deadline: <?= date("d F Y", strtotime($task['date'])) ?>
+                    </span>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="card p-3 mb-3 shadow-sm border-0">
+                <span class="text-muted">No tasks available.</span>
+            </div>
+        <?php endif; ?>
+    </div>
 
-<!-- MINI CALENDAR -->
-<div class="row mt-4">
-    <div class="col-lg-6"></div>
-    <div class="col-lg-6">
+    <!-- RIGHT: CALENDAR -->
+    <div class="col-lg-5 col-md-12 d-flex justify-content-start align-items-start">
+
         <div class="mini-calendar">
             <div class="calendar-header">
                 <span id="calendar-month"></span>
@@ -85,10 +99,11 @@ ob_start();
 
             <div class="calendar-grid" id="calendar-days"></div>
         </div>
+
     </div>
 </div>
 
-<!-- JS MINI CALENDAR -->
+<!-- CALENDAR JS -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -97,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "July","August","September","October","November","December"
     ];
 
-    const dayName = ["M", "T", "W", "T", "F", "S", "S"];
+    const dayName = ["M","T","W","T","F","S","S"];
 
     const now = new Date();
     const year = now.getFullYear();
@@ -108,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const daysContainer = document.getElementById('calendar-days');
 
-    // NAMA HARI
+    // DAY NAMES
     dayName.forEach(d => {
         let cell = document.createElement("div");
         cell.classList.add("calendar-dayname");
@@ -116,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         daysContainer.appendChild(cell);
     });
 
-    // HITUNG TANGGAL
+    // CALCULATE DATES
     let firstDay = new Date(year, month, 1).getDay();
     if (firstDay === 0) firstDay = 7;
 
