@@ -28,5 +28,6 @@ if (mysqli_query($conn, $sql)) {
     $_SESSION['success'] = "Failed to update task.";
 }
 
-header("Location: tasks.php");
+header("Location: ../user/tasks.php");
 exit;
+
