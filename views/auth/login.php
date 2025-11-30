@@ -53,7 +53,7 @@ ob_start();
 
     <div class="text-center mt-3">
         Don't have an account?
-        <a href="register.php">Sign Up</a>
+        <a href="register.php">Register</a>
     </div>
 </form>
 

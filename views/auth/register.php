@@ -30,14 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
-$title = "Sign Up";
-$leftTitle = "Sign Up Now!";
+$title = "Register";
+$leftTitle = "Register Now!";
 $leftDesc = "Create an account and begin managing your tasks easily.";
 
 ob_start();
 ?>
 
-<h3>Sign Up</h3>
+<h3>Register</h3>
 
 <?php if ($err): ?>
 <div class="error-box"><?= $err ?></div>
@@ -62,7 +62,7 @@ ob_start();
     <input type="password" name="password_confirmation" class="form-control"
            placeholder="Confirm Password" required>
 
-    <button class="btn-purple mt-2">Sign Up</button>
+    <button class="btn-purple mt-2">Register</button>
 
     <div class="text-center mt-3">
         Already have an account?
