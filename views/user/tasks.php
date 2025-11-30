@@ -2,16 +2,12 @@
 session_start();
 require "../../config/db.php";
 
-// SET PAGE TITLE & ACTIVE MENU
 $title = "My Task";
 $active = "task";
 
-// ====================
-// GET ALL TASKS
-// ====================
 $userId = $_SESSION['user_id'];
 
-$q = mysqli_query($conn, "SELECT * FROM tasks WHERE user_id = $userId ORDER BY date ASC");
+$q = mysqli_query($conn, "SELECT * FROM tasks WHERE user_id = $userId ORDER BY due_date ASC");
 $tasks = [];
 while ($row = mysqli_fetch_assoc($q)) {
     $tasks[] = $row;
@@ -34,9 +30,21 @@ ob_start();
                 <div class="task-card">
 
                     <div class="task-left d-flex flex-column">
-                        <span><?= date("M d, Y", strtotime($task['date'])) ?></span>
+
+                        <?php
+                            // START DATE SAFE LOGIC
+                            $startDate = (
+                                empty($task['start_date']) ||
+                                $task['start_date'] == '0000-00-00'
+                            )
+                            ? "No Start Date"
+                            : date("M d, Y", strtotime($task['start_date']));
+                        ?>
+
+                        <span><?= $startDate ?></span>
                         <span><?= htmlspecialchars($task['name']) ?></span>
                     </div>
+
 
                     <div class="d-flex align-items-center gap-2">
 
@@ -146,8 +154,11 @@ ob_start();
 
             <form action="store_task.php" method="POST">
 
-                <label>Date</label>
-                <input type="date" name="date" class="form-control mb-3" required>
+                <label>Start Date</label>
+                <input type="date" name="start_date" class="form-control mb-3" required>
+
+                <label>Due Date</label>
+                <input type="date" name="due_date" class="form-control mb-3" required>
 
                 <label>Task Name</label>
                 <input type="text" name="name" class="form-control mb-3" required>
@@ -170,9 +181,7 @@ ob_start();
 
             </form>
         </div>
-
     </div>
-
 </div>
 
 <?php

@@ -26,9 +26,8 @@ $done = mysqli_fetch_assoc($q_done)['total'];
 
 $q_deadline = mysqli_query($conn, "
     SELECT * FROM tasks 
-    WHERE user_id = $userId 
-    ORDER BY date ASC 
-    LIMIT 5
+    WHERE user_id = $userId
+    ORDER BY due_date ASC
 ");
 
 $latestTasks = [];
@@ -74,17 +73,28 @@ ob_start();
 
         <?php if (count($latestTasks) > 0): ?>
             <?php foreach ($latestTasks as $task): ?>
+
                 <div class="card p-3 mb-3 shadow-sm border-0">
                     <strong><?= htmlspecialchars($task['name']) ?></strong>
+
+                    <?php
+                        $deadline = ($task['due_date'] == null || $task['due_date'] == '0000-00-00')
+                            ? "No Deadline"
+                            : date("d F Y", strtotime($task['due_date']));
+                    ?>
+
                     <span class="text-muted d-block">
-                        Deadline: <?= date("d F Y", strtotime($task['date'])) ?>
+                        Deadline: <?= $deadline ?>
                     </span>
                 </div>
+
             <?php endforeach; ?>
         <?php else: ?>
+
             <div class="card p-3 mb-3 shadow-sm border-0">
                 <span class="text-muted">No tasks available.</span>
             </div>
+
         <?php endif; ?>
     </div>
 
@@ -106,7 +116,6 @@ ob_start();
 <!-- CALENDAR JS -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
     const monthName = [
         "January","February","March","April","May","June",
         "July","August","September","October","November","December"
@@ -123,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const daysContainer = document.getElementById('calendar-days');
 
-    // DAY NAMES
     dayName.forEach(d => {
         let cell = document.createElement("div");
         cell.classList.add("calendar-dayname");
@@ -131,7 +139,6 @@ document.addEventListener("DOMContentLoaded", function () {
         daysContainer.appendChild(cell);
     });
 
-    // CALCULATE DATES
     let firstDay = new Date(year, month, 1).getDay();
     if (firstDay === 0) firstDay = 7;
 
