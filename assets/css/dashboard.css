@@ -100,38 +100,3 @@ body {
     color: #2F2843;
 }
 
-/* MINI CALENDAR */
-.mini-calendar {
-    width: 100%;
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-}
-
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 700;
-    color: #3F2E5C;
-    margin-bottom: 15px;
-}
-
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    row-gap: 4px;
-    text-align: center;
-}
-
-.calendar-dayname {
-    font-weight: 600;
-    color: #6d5b8e;
-}
-
-.calendar-today {
-    background: #8A6EB8;
-    color: white;
-    font-weight: 700;
-    border-radius: 6px;
-}
