@@ -4,7 +4,7 @@ require "../../config/db.php";
 
 // SET PAGE TITLE & ACTIVE MENU
 $title = "My Task";
-$active = "tasks";
+$active = "task";
 
 // ====================
 // GET ALL TASKS
