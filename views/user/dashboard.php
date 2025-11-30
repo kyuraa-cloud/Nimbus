@@ -1,8 +1,43 @@
 <?php
 session_start();
+require "../../config/db.php";
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
 
 $title = "Dashboard";
 $active = "dashboard";
+
+$userId = $_SESSION['user_id'];
+// Total semua task user
+$q_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId");
+$totalTask = mysqli_fetch_assoc($q_total)['total'];
+
+// Status: to do
+$q_todo = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='to do'");
+$todo = mysqli_fetch_assoc($q_todo)['total'];
+
+// Status: in progress
+$q_progress = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='in progress'");
+$inProgress = mysqli_fetch_assoc($q_progress)['total'];
+
+// Status: done
+$q_done = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='done'");
+$done = mysqli_fetch_assoc($q_done)['total'];
+
+$q_deadline = mysqli_query($conn, "
+    SELECT * FROM tasks 
+    WHERE user_id = $userId 
+    ORDER BY date ASC 
+    LIMIT 5
+");
+
+$latestTasks = [];
+while ($row = mysqli_fetch_assoc($q_deadline)) {
+    $latestTasks[] = $row;
+}
 
 ob_start();
 ?>
@@ -14,22 +49,22 @@ ob_start();
 <div class="dashboard-grid">
     <div class="card-stat">
         <div class="stat-title">Total Tasks</div>
-        <div class="stat-number">0</div>
+        <div class="stat-number"><?= $totalTask ?></div>
     </div>
 
     <div class="card-stat">
         <div class="stat-title">Tasks To Do</div>
-        <div class="stat-number">0</div>
+        <div class="stat-number"><?= $todo ?></div>
     </div>
 
     <div class="card-stat">
         <div class="stat-title">Tasks In Progress</div>
-        <div class="stat-number">0</div>
+        <div class="stat-number"><?= $inProgress ?></div>
     </div>
 
     <div class="card-stat">
         <div class="stat-title">Tasks Completed</div>
-        <div class="stat-number">0</div>
+        <div class="stat-number"><?= $done ?></div>
     </div>
 </div>
 
