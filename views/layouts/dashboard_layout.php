@@ -25,6 +25,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <!-- SIDEBAR -->
 <div class="sidebar">
+    <div class="sidebar-logo">
+        <img src="/nimbus/assets/img/nimbuss.jpg" class="logo-img">
+    </div>
     <a href="dashboard.php" class="<?= $active == 'dashboard' ? 'active-menu' : '' ?>">Dashboard</a>
 
     <?php if ($_SESSION['role'] === 'admin'): ?>
