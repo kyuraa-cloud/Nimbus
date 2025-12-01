@@ -1,5 +1,4 @@
 <?php
-// Hitung detail bulan saat ini
 $firstDay = mktime(0, 0, 0, $currentMonth, 1, $currentYear);
 $daysInMonth = date("t", $firstDay);
 $startDay = date("w", $firstDay); // 0 = Minggu
@@ -7,7 +6,6 @@ $startDay = ($startDay == 0) ? 6 : $startDay - 1; // ubah supaya minggu terakhir
 ?>
 
 <?php
-// Buat tombol navigasi bulan
 $prevMonth = $currentMonth - 1;
 $prevYear  = $currentYear;
 $nextMonth = $currentMonth + 1;
@@ -40,20 +38,13 @@ if ($nextMonth > 12) { $nextMonth = 1; $nextYear++; }
     <div class="calendar-grid">
 
         <?php
-        // Cell kosong sebelum tanggal 1
         for ($i = 0; $i < $startDay; $i++) {
             echo "<div class='day empty'></div>";
         }
-
-        // Loop tanggal
         for ($d = 1; $d <= $daysInMonth; $d++) {
-
-            // FIX: Pastikan format menjadi YYYY-MM-DD
             $date = date("Y-m-d", strtotime("$currentYear-$currentMonth-$d"));
-
             echo "<div class='day'>";
             echo "<span class='date-num'>$d</span>";
-
             foreach ($events as $e) {
                 if ($date >= $e['start'] && $date <= $e['end']) {
                     echo "<div class='event-bar {$e['priority']}'>"
@@ -61,10 +52,8 @@ if ($nextMonth > 12) { $nextMonth = 1; $nextYear++; }
                         "</div>";
                 }
             }
-
             echo "</div>";
         }
         ?>
-
     </div>
 </div>

@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $title = "Dashboard";
 $active = "dashboard";
-
 $userId = $_SESSION['user_id'];
 
 $q_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId");
@@ -65,25 +64,19 @@ ob_start();
     </div>
 </div>
 
-<!-- DEADLINE + CALENDAR -->
 <div class="row mt-1">
-
     <!-- LEFT: DEADLINE PRIORITY -->
     <div class="col-lg-7 col-md-12">
         <h3 class="section-title">Deadline Priority:</h3>
-
         <?php if (count($latestTasks) > 0): ?>
             <?php foreach ($latestTasks as $task): ?>
-
                 <div class="card p-3 mb-3 shadow-sm border-0">
                     <strong><?= htmlspecialchars($task['name']) ?></strong>
-
                     <?php
                         $deadline = ($task['due_date'] == null || $task['due_date'] == '0000-00-00')
                             ? "No Deadline"
                             : date("d F Y", strtotime($task['due_date']));
                     ?>
-
                     <span class="text-muted d-block">
                         Deadline: <?= $deadline ?>
                     </span>
@@ -91,26 +84,21 @@ ob_start();
 
             <?php endforeach; ?>
         <?php else: ?>
-
             <div class="card p-3 mb-3 shadow-sm border-0">
                 <span class="text-muted">No tasks available.</span>
             </div>
-
         <?php endif; ?>
     </div>
 
     <!-- RIGHT: CALENDAR -->
     <div class="col-lg-5 col-md-12 d-flex justify-content-start align-items-start">
-
         <div class="mini-calendar">
             <div class="calendar-header">
                 <span id="calendar-month"></span>
                 <span id="calendar-year"></span>
             </div>
-
             <div class="calendar-grid" id="calendar-days"></div>
         </div>
-
     </div>
 </div>
 

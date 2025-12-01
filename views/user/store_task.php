@@ -13,7 +13,6 @@ $status   = $_POST['status'];
 $sql = "INSERT INTO tasks (user_id, start_date, due_date, name, priority, status)
         VALUES ($userId, '$start_date', '$due_date', '$name', '$priority', '$status')";
 
-
 mysqli_query($conn, $sql);
 
 $_SESSION['success'] = "Task added successfully!";

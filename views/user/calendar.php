@@ -4,10 +4,9 @@ require "../../config/db.php";
 
 $title = "Calendar";
 $active = "calendar";
-
 $userId = $_SESSION['user_id'];
 
-include "calendar_logic.php"; // ambil data tugas + variable bulan
+include "calendar_logic.php"; 
 
 ob_start();
 ?>

@@ -31,8 +31,7 @@ ob_start();
 
                     <div class="task-left d-flex flex-column">
 
-                        <?php
-                            // START DATE SAFE LOGIC
+                        <?php   
                             $startDate = (
                                 empty($task['start_date']) ||
                                 $task['start_date'] == '0000-00-00'
@@ -48,25 +47,21 @@ ob_start();
 
                     <div class="d-flex align-items-center gap-2">
 
-                        <!-- PRIORITY BADGE -->
                         <div class="badge-item
                             <?= $task['priority'] == 'high' ? 'tag-high' : ($task['priority'] == 'medium' ? 'tag-medium' : 'tag-low') ?>">
                             <?= strtoupper($task['priority']) ?>
                         </div>
 
-                        <!-- STATUS BADGE -->
                         <div class="badge-item tag-status">
                             <?= strtoupper($task['status']) ?>
                         </div>
 
-                        <!-- EDIT BUTTON -->
                         <button class="badge-item btn-edit"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editModal<?= $task['id'] ?>">
                             Edit
                         </button>
 
-                        <!-- DELETE BUTTON -->
                         <button class="badge-item btn-delete"
                                 data-bs-toggle="modal"
                                 data-bs-target="#delete<?= $task['id'] ?>">
@@ -153,7 +148,6 @@ ob_start();
 
     </div>
 
-    <!-- ADD TASK FORM -->
     <div class="col-lg-4">
 
         <div class="add-task-card">
