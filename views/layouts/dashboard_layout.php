@@ -23,9 +23,25 @@
     </div>
 
     <a href="dashboard.php" class="<?= $active == 'dashboard' ? 'active-menu' : '' ?>">Dashboard</a>
+
+<?php if($_SESSION['role'] != 'admin'): ?>    
     <a href="tasks.php" class="<?= $active == 'task' ? 'active-menu' : '' ?>">My Task</a>
+<?php endif; ?>
+
+<?php if($_SESSION['role'] != 'user'): ?>    
+    <a href="tasks.php" class="<?= $active == 'tasks' ? 'active-menu' : '' ?>">Tasks</a>
+<?php endif; ?>
+
+<?php if($_SESSION['role'] != 'admin'): ?>
     <a href="calendar.php" class="<?= $active == 'calendar' ? 'active-menu' : '' ?>">Calendar</a>
+<?php endif; ?>
+
+<?php if($_SESSION['role'] != 'user'): ?>
+    <a href="users.php" class="<?= $active == 'users' ? 'active-menu' : '' ?>">Users</a>
+<?php endif; ?>
+
     <a href="settings.php" class="<?= $active == 'settings' ? 'active-menu' : '' ?>">Settings</a>
+    
 
     <hr style="border-color:rgba(255,255,255,0.2);">
 
