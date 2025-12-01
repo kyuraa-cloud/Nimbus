@@ -89,12 +89,6 @@ ob_start();
     </div>
 </div>
 
-<h3 style="color:#2F2843; font-weight:700;">Recenet Users</h2>
-
-
-
-
-<h3 style="color:#2F2843; font-weight:700;">Recent Tasks</h2>
 
 <!-- RECENT USERS -->
 <h3 style="color:#2F2843; font-weight:700; margin-top:20px;">Recent Users</h3>
@@ -125,3 +119,4 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
+include "../layouts/dashboard_layout.php";
