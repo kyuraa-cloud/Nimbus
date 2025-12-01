@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+
 $title = "Dashboard";
 $active = "dashboard";
 
@@ -164,3 +165,5 @@ document.addEventListener("DOMContentLoaded", function () {
 <?php
 $content = ob_get_clean();
 include "../layouts/dashboard_layout.php";
+
+
