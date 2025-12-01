@@ -4,7 +4,6 @@ require "../../config/db.php";
 
 $err = "";
 
-// === PROSES LOGIN ===
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $email = strtolower(trim($_POST['email']));
@@ -22,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $_SESSION['name']    = $user['name'];
             $_SESSION['role']    = $user['role'];
 
-            // === REDIRECT BERDASARKAN ROLE ===
             if ($user['role'] === 'admin') {
                 header("Location: ../admin/dashboard.php");
             } else {

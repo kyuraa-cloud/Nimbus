@@ -4,7 +4,6 @@ require "../../config/db.php";
 $err = "";
 $success = "";
 
-// === PROSES REGISTER ===
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $name  = trim($_POST['name']);
@@ -16,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $err = "Password tidak sama!";
     } else {
         $hashed = password_hash($pass, PASSWORD_DEFAULT);
-
         $insert = mysqli_query($conn, "
             INSERT INTO users (name, email, password, role)
             VALUES ('$name', '$email', '$hashed', 'user')
@@ -47,21 +45,15 @@ ob_start();
 <div class="success-box"><?= $success ?></div>
 <?php endif; ?>
 
-
 <form method="POST">
-
     <input type="text" name="name" class="form-control"
            placeholder="Name" required>
-
     <input type="email" name="email" class="form-control"
            placeholder="Email" required>
-
     <input type="password" name="password" class="form-control"
            placeholder="Password" required>
-
     <input type="password" name="password_confirmation" class="form-control"
            placeholder="Confirm Password" required>
-
     <button class="btn-purple mt-2">Register</button>
 
     <div class="text-center mt-3">
