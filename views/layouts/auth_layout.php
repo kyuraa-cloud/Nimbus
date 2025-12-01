@@ -7,19 +7,14 @@
 </head>
 
 <body>
-
 <div class="auth-wrapper">
-
     <div class="auth-left">
         <h2><?= $leftTitle ?></h2>
         <p><?= $leftDesc ?></p>
     </div>
-
     <div class="auth-right">
         <?= $content ?>
     </div>
-
 </div>
-
 </body>
 </html>
