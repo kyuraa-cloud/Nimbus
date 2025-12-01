@@ -10,17 +10,14 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 $title = "User Management";
 $active = "user_admin";
 
-// default keyword
 $keyword = isset($_GET['search']) ? trim($_GET['search']) : "";
 
-// QUERY: tampilkan user saja, admin disembunyikan
 $sql = "
     SELECT id, name, email, created_at 
     FROM users 
     WHERE role = 'user'
 ";
 
-// Jika search ada isinya
 if ($keyword !== "") {
     $keywordEsc = mysqli_real_escape_string($conn, $keyword);
     $sql .= " AND (name LIKE '%$keywordEsc%' OR email LIKE '%$keywordEsc%')";
@@ -30,7 +27,6 @@ $sql .= " ORDER BY id DESC";
 
 $q_users = mysqli_query($conn, $sql);
 
-// function time ago
 function timeAgo($datetime) {
     $timestamp = strtotime($datetime);
     $diff = abs(time() - $timestamp);
