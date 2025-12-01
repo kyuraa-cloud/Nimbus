@@ -193,4 +193,4 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-include "../layouts/dashboard_layout.php";
+include "../layouts/user_layout.php";

@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="/nimbus/assets/css/auth.css">
 </head>
 
-<script src="/Nimbus/assets/js/alerts.js"></script>
-
 <body>
 
 <div class="auth-wrapper">

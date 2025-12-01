@@ -2,22 +2,35 @@
 session_start();
 require "../../config/db.php";
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../auth/login.php");
     exit;
 }
 
-$title = "Users";
-$active = "users";
+$title = "User Management";
+$active = "user_admin";
 
-// Ambil data recent users dari database
-$q_recent_users = mysqli_query($conn, "
-    SELECT name, email, created_at 
+// default keyword
+$keyword = isset($_GET['search']) ? trim($_GET['search']) : "";
+
+// QUERY: tampilkan user saja, admin disembunyikan
+$sql = "
+    SELECT id, name, email, created_at 
     FROM users 
-    ORDER BY id DESC 
-    LIMIT 7
-");
+    WHERE role = 'user'
+";
 
+// Jika search ada isinya
+if ($keyword !== "") {
+    $keywordEsc = mysqli_real_escape_string($conn, $keyword);
+    $sql .= " AND (name LIKE '%$keywordEsc%' OR email LIKE '%$keywordEsc%')";
+}
+
+$sql .= " ORDER BY id DESC";
+
+$q_users = mysqli_query($conn, $sql);
+
+// function time ago
 function timeAgo($datetime) {
     $timestamp = strtotime($datetime);
     $diff = abs(time() - $timestamp);
@@ -31,30 +44,52 @@ function timeAgo($datetime) {
 ob_start();
 ?>
 
-<h2 style="color:#2F2843; font-weight:700;">Recent Users</h2>
-<p style="color:#6c5a8d;">Daftar pengguna terbaru</p>
+<h2 style="color:#2F2843; font-weight:700;">User Management</h2>
+<p style="color:#6c5a8d;">Manage all users registered in the system.</p>
 
-<div style="margin-top: 16px;">
-    <table style="width:100%; border-collapse: collapse; background-color: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
-        <thead style="background-color: #f5f5f5;">
-            <tr>
-                <th style="text-align:left; padding:12px; color:#2F2843;">Name</th>
-                <th style="text-align:left; padding:12px; color:#2F2843;">Email</th>
-                <th style="text-align:left; padding:12px; color:#2F2843;">Joined</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($u = mysqli_fetch_assoc($q_recent_users)) { ?>
-                <tr>
-                    <td style="padding:12px; border-top:1px solid #eee;"><?= htmlspecialchars($u['name']) ?></td>
-                    <td style="padding:12px; border-top:1px solid #eee;"><?= htmlspecialchars($u['email']) ?></td>
-                    <td style="padding:12px; border-top:1px solid #eee; color:#6c5a8d;"><?= timeAgo($u['created_at']) ?></td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-</div>
+<!-- SEARCH FORM -->
+<form method="GET" class="d-flex mb-3" style="max-width: 400px; gap:10px;">
+    <input 
+        type="text" 
+        name="search" 
+        class="form-control" 
+        placeholder="Search user..." 
+        value="<?= htmlspecialchars($keyword) ?>"
+    >
+    <button class="btn btn-primary" style="background:#8A6EB8; border:none;">Search</button>
+</form>
+
+<!-- TABEL USER -->
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th style="color:white;">Name</th>
+            <th style="color:white;">Email</th>
+            <th style="color:white;">Joined</th>
+            <th style="color:white;">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <?php while ($u = mysqli_fetch_assoc($q_users)) { ?>
+        <tr>
+            <td><?= htmlspecialchars($u['name']) ?></td>
+            <td><?= htmlspecialchars($u['email']) ?></td>
+            <td><?= timeAgo($u['created_at']) ?></td>
+            <td>
+                <a href="edit_user.php?id=<?= $u['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                <a 
+                    href="delete_user.php?id=<?= $u['id'] ?>" 
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('Delete this user?')"
+                >Delete</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
 
 <?php
 $content = ob_get_clean();
-include "../layouts/dashboard_layout.php";
+include "../layouts/admin_layout.php";
+?>

@@ -1,0 +1,113 @@
+body {
+    background: #F5F3FA;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: linear-gradient(180deg, #2F2843, #3F2E5C);
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 35px 25px;
+    border-right: 2px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-logo {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo-img {
+    width: 160px;
+    object-fit: contain;
+    filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.2));
+}
+
+.sidebar a {
+    color: #f1e9ff;
+    display: block;
+    margin: 10px 0;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 14px;
+    border-radius: 10px;
+    transition: 0.25s;
+}
+
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: translateX(5px);
+}
+
+.active-menu {
+    background: #977DBF;
+    color: white !important;
+    font-weight: 600;
+    transform: translateX(5px);
+}
+
+.main {
+    margin-left: 260px;
+    padding: 35px 45px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.card-stat {
+    background: #fff;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    transition: 0.2s;
+}
+
+.card-stat:hover {
+    transform: translateY(-4px);
+}
+
+.stat-title {
+    font-size: 16px;
+    color: #3F2E5C;
+    font-weight: 600;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: 800;
+    color: #8A6EB8;
+    margin-top: 10px;
+}
+
+/* TABLE STYLE */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.admin-table th {
+    background: #8A6EB8;
+    padding: 12px;
+    color: #ffffff;
+    text-align: left;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-top: 1px solid #827c7c;
+}

@@ -10,41 +10,36 @@ if (!isset($_SESSION['user_id'])) {
 $title = "Dashboard";
 $active = "dashboard";
 
-$userId = $_SESSION['user_id'];
+// Total semua users
+$q_total_users = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users");
+$totalUsers = mysqli_fetch_assoc($q_total_users)['total'];
 
-// =========================
-// Statistik
-$q_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId");
-$totalTask = mysqli_fetch_assoc($q_total)['total'];
-// =========================
-$q_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users");
-$totalUsers = mysqli_fetch_assoc($q_total)['total'];
+// Total semua tasks (seluruh user)
+$q_total_tasks = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks");
+$totalTask = mysqli_fetch_assoc($q_total_tasks)['total'];
 
-$q_todo = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='to do'");
-$todo = mysqli_fetch_assoc($q_todo)['total'];
-
-$q_progress = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='in progress'");
-$inProgress = mysqli_fetch_assoc($q_progress)['total'];
-$q_tasks = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId");
-$totalTask = mysqli_fetch_assoc($q_tasks)['total'];
-
-$q_done = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status='done'");
+// Completed (DONE)
+$q_done = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE status='done'");
 $done = mysqli_fetch_assoc($q_done)['total'];
 
-$q_pending = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId AND status!='done'");
+// Pending (TO DO dan IN PROGRESS)
+$q_pending = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE status!='done'");
 $pending = mysqli_fetch_assoc($q_pending)['total'];
 
-// =========================
-// Recent Users
-// =========================
 $q_recent_users = mysqli_query($conn, "
     SELECT name, email, created_at 
     FROM users 
     ORDER BY id DESC 
     LIMIT 7
 ");
+$q_recent_tasks = mysqli_query($conn, "
+    SELECT tasks.name AS task_name, tasks.status, tasks.created_at, users.name AS username
+    FROM tasks
+    JOIN users ON tasks.user_id = users.id
+    ORDER BY tasks.id DESC
+    LIMIT 7
+");
 
-// helper untuk waktu relatif
 function timeAgo($datetime) {
     $timestamp = strtotime($datetime);
     $diff = abs(time() - $timestamp);
@@ -55,14 +50,12 @@ function timeAgo($datetime) {
     else return floor($diff / 86400) . " days ago";
 }
 
-
 ob_start();
 ?>
 
 <h2 style="color:#2F2843; font-weight:700;">Admin Dashboard</h2>
 <p style="color:#6c5a8d;">System Overview dan Monitoring</p>
 
-<!-- STAT GRID SAJA -->
 <!-- STAT GRID -->
 <div class="dashboard-grid">
 
@@ -88,37 +81,55 @@ ob_start();
 
 </div>
 
-
-
-
-
 <!-- RECENT USERS -->
-<h3 style="color:#2F2843; font-weight:700; margin-top:20px;">Recent Users</h3>
+<h3 style="color:#2F2843; font-weight:700; margin-top:25px;">Recent Users</h3>
+
 <div style="margin-top: 16px;">
-    <table style="width:100%; border-collapse: collapse; background-color: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
-        <thead style="background-color: #f5f5f5;">
+    <table class="admin-table">
+        <thead>
             <tr>
-                <th style="text-align:left; padding:12px; color:#2F2843;">Name</th>
-                <th style="text-align:left; padding:12px; color:#2F2843;">Email</th>
-                <th style="text-align:left; padding:12px; color:#2F2843;">Joined</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Joined</th>
             </tr>
         </thead>
         <tbody>
             <?php while ($u = mysqli_fetch_assoc($q_recent_users)) { ?>
                 <tr>
-                    <td style="padding:12px; border-top:1px solid #eee;"><?= htmlspecialchars($u['name']) ?></td>
-                    <td style="padding:12px; border-top:1px solid #eee;"><?= htmlspecialchars($u['email']) ?></td>
-                    <td style="padding:12px; border-top:1px solid #eee; color:#6c5a8d;"><?= timeAgo($u['created_at']) ?></td>
+                    <td><?= htmlspecialchars($u['name']) ?></td>
+                    <td><?= htmlspecialchars($u['email']) ?></td>
+                    <td><?= timeAgo($u['created_at']) ?></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 </div>
 
-<!-- RECENT TASKS -->
-<h3 style="color:#2F2843; font-weight:700; margin-top:20px;">Recent Tasks</h3>
-<!-- Tambahkan query & tampilan tasks di sini -->
+<h3 style="color:#2F2843; font-weight:700; margin-top:25px;">Recent Tasks</h3>
+
+<div style="margin-top: 16px;">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($t = mysqli_fetch_assoc($q_recent_tasks)) { ?>
+                <tr>
+                    <td><?= htmlspecialchars($t['task_name']) ?></td>
+                    <td><?= htmlspecialchars($t['username']) ?></td>
+                    <td><?= ucfirst($t['status']) ?></td>
+                    <td><?= timeAgo($t['created_at']) ?></td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
 
 <?php
 $content = ob_get_clean();
-include "../layouts/dashboard_layout.php";
+include "../layouts/admin_layout.php";
