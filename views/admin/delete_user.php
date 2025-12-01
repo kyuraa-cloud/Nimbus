@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 $userId = $_GET['id'];
 
-// Cegah admin menghapus dirinya sendiri
 if ($userId == $_SESSION['user_id']) {
     die("You cannot delete your own account.");
 }

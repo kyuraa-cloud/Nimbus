@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 $userId = $_GET['id'];
 
-// Ambil data user
 $q = mysqli_query($conn, "SELECT * FROM users WHERE id = $userId");
 $user = mysqli_fetch_assoc($q);
 
@@ -20,7 +19,6 @@ if (!$user) {
 $title = "Edit User";
 $active = "user_admin";
 
-// Update user jika form dikirim
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $name  = mysqli_real_escape_string($conn, $_POST['name']);

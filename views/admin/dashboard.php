@@ -10,19 +10,15 @@ if (!isset($_SESSION['user_id'])) {
 $title = "Dashboard";
 $active = "dashboard";
 
-// Total semua users
 $q_total_users = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users");
 $totalUsers = mysqli_fetch_assoc($q_total_users)['total'];
 
-// Total semua tasks (seluruh user)
 $q_total_tasks = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks");
 $totalTask = mysqli_fetch_assoc($q_total_tasks)['total'];
 
-// Completed (DONE)
 $q_done = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE status='done'");
 $done = mysqli_fetch_assoc($q_done)['total'];
 
-// Pending (TO DO dan IN PROGRESS)
 $q_pending = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE status!='done'");
 $pending = mysqli_fetch_assoc($q_pending)['total'];
 
