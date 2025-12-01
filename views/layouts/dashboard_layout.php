@@ -1,3 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,34 +25,25 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <div class="sidebar-logo">
-        <img src="/nimbus/assets/img/nimbuss.jpg" class="logo-img">
-    </div>
-
     <a href="dashboard.php" class="<?= $active == 'dashboard' ? 'active-menu' : '' ?>">Dashboard</a>
 
-<?php if($_SESSION['role'] != 'admin'): ?>    
-    <a href="tasks.php" class="<?= $active == 'task' ? 'active-menu' : '' ?>">My Task</a>
-<?php endif; ?>
+    <?php if ($_SESSION['role'] === 'admin'): ?>
+        <!-- MENU KHUSUS ADMIN -->
+        <a href="task_admin.php" class="<?= $active == 'task_admin' ? 'active-menu' : '' ?>">Tasks</a>
+        <a href="user_admin.php" class="<?= $active == 'user_admin' ? 'active-menu' : '' ?>">Users</a>
 
-<?php if($_SESSION['role'] != 'user'): ?>    
-    <a href="tasks.php" class="<?= $active == 'tasks' ? 'active-menu' : '' ?>">Tasks</a>
-<?php endif; ?>
-
-<?php if($_SESSION['role'] != 'admin'): ?>
-    <a href="calendar.php" class="<?= $active == 'calendar' ? 'active-menu' : '' ?>">Calendar</a>
-<?php endif; ?>
-
-<?php if($_SESSION['role'] != 'user'): ?>
-    <a href="users.php" class="<?= $active == 'users' ? 'active-menu' : '' ?>">Users</a>
-<?php endif; ?>
+    <?php else: ?>
+        <!-- MENU KHUSUS USER -->
+        <a href="tasks.php" class="<?= $active == 'task' ? 'active-menu' : '' ?>">My Task</a>
+        <a href="calendar.php" class="<?= $active == 'calendar' ? 'active-menu' : '' ?>">Calendar</a>
+    <?php endif; ?>
 
     <a href="settings.php" class="<?= $active == 'settings' ? 'active-menu' : '' ?>">Settings</a>
-    
 
     <hr style="border-color:rgba(255,255,255,0.2);">
 
     <a href="../auth/logout.php">Logout</a>
+
 </div>
 
 <div class="main">

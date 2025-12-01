@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email = mysqli_real_escape_string($conn, $email);
     $password = trim($_POST['password']);
 
-
     $q = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
     
     if ($q && mysqli_num_rows($q) === 1) {
@@ -23,7 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $_SESSION['name']    = $user['name'];
             $_SESSION['role']    = $user['role'];
 
-            header("Location: ../user/dashboard.php");
+            // === REDIRECT BERDASARKAN ROLE ===
+            if ($user['role'] === 'admin') {
+                header("Location: ../admin/dashboard.php");
+            } else {
+                header("Location: ../user/dashboard.php");
+            }
             exit;
         }
     }
