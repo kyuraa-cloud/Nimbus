@@ -84,8 +84,15 @@ ob_start();
                             <div class="modal-content p-3">
                                 <h5 class="fw-bold">Edit Task</h5>
 
-                                <label>Date</label>
-                                <input type="date" name="date" value="<?= $task['date'] ?>" class="form-control mb-2" required>
+                                <label>Start Date</label>
+                                <input type="date" name="start_date" 
+                                    value="<?= $task['start_date'] ?>" 
+                                    class="form-control mb-2">
+
+                                <label>Due Date</label>
+                                <input type="date" name="due_date" 
+                                    value="<?= $task['due_date'] ?>" 
+                                    class="form-control mb-2">
 
                                 <label>Task Name</label>
                                 <input type="text" name="name" value="<?= $task['name'] ?>" class="form-control mb-2" required>
