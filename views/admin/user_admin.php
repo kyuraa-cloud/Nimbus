@@ -15,12 +15,12 @@ $q_recent_users = mysqli_query($conn, "
     SELECT name, email, created_at 
     FROM users 
     ORDER BY id DESC 
-    LIMIT 5
+    LIMIT 7
 ");
 
 function timeAgo($datetime) {
     $timestamp = strtotime($datetime);
-    $diff = time() - $timestamp;
+    $diff = abs(time() - $timestamp);
 
     if ($diff < 60) return $diff . " seconds ago";
     elseif ($diff < 3600) return floor($diff / 60) . " minutes ago";

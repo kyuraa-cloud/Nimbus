@@ -41,19 +41,20 @@ $q_recent_users = mysqli_query($conn, "
     SELECT name, email, created_at 
     FROM users 
     ORDER BY id DESC 
-    LIMIT 5
+    LIMIT 7
 ");
 
 // helper untuk waktu relatif
 function timeAgo($datetime) {
     $timestamp = strtotime($datetime);
-    $diff = time() - $timestamp;
+    $diff = abs(time() - $timestamp);
 
     if ($diff < 60) return $diff . " seconds ago";
     elseif ($diff < 3600) return floor($diff / 60) . " minutes ago";
     elseif ($diff < 86400) return floor($diff / 3600) . " hours ago";
     else return floor($diff / 86400) . " days ago";
 }
+
 
 ob_start();
 ?>
@@ -64,30 +65,31 @@ ob_start();
 <!-- STAT GRID SAJA -->
 <!-- STAT GRID -->
 <div class="dashboard-grid">
+
     <div class="card-stat">
         <div class="stat-title">Total Users</div>
-        <div class="stat-number"><?= $totalTask ?></div>
         <div class="stat-number"><?= $totalUsers ?></div>
     </div>
 
     <div class="card-stat">
         <div class="stat-title">Total Tasks</div>
-        <div class="stat-number"><?= $todo ?></div>
         <div class="stat-number"><?= $totalTask ?></div>
     </div>
 
     <div class="card-stat">
         <div class="stat-title">Completed Tasks</div>
-        <div class="stat-number"><?= $inProgress ?></div>
         <div class="stat-number"><?= $done ?></div>
     </div>
 
     <div class="card-stat">
         <div class="stat-title">Pending Tasks</div>
-        <div class="stat-number"><?= $done ?></div>
         <div class="stat-number"><?= $pending ?></div>
     </div>
+
 </div>
+
+
+
 
 
 <!-- RECENT USERS -->
