@@ -1,16 +1,18 @@
 <?php
 session_start();
 require "../../config/db.php";
+require "../../functions/quote.php";
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../auth/login.php");
     exit;
 }
 
-
 $title = "Dashboard";
 $active = "dashboard";
 $userId = $_SESSION['user_id'];
+
+$quote = getRandomQuote();
 
 $q_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tasks WHERE user_id = $userId");
 $totalTask = mysqli_fetch_assoc($q_total)['total'];
@@ -38,8 +40,28 @@ while ($row = mysqli_fetch_assoc($q_deadline)) {
 ob_start();
 ?>
 
-<h2 style="color:#2F2843; font-weight:700;">Dashboard</h2>
-<p style="color:#6c5a8d;">Here's a summary of your current task progress</p>
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <!-- KIRI: Judul Dashboard -->
+    <div>
+        <h2 style="color:#2F2843; font-weight:700;">Dashboard</h2>
+        <p style="color:#6c5a8d;">Here's a summary of your current task progress</p>
+    </div>
+
+    <!-- KANAN: Card Quote -->
+    <?php if (!empty($quote)): ?>
+        <div class="card shadow-sm border-0" style="max-width: 640px; background:#F7F3FF;">
+            <div class="card-body p-3">
+                <h6 class="text-muted mb-2" style="font-size:0.85rem;">Motivation for Today</h6>
+                <p class="mb-1" style="font-style:italic; font-size:0.9rem;">
+                    “<?= htmlspecialchars($quote['text']); ?>”
+                </p>
+                <small class="d-block text-end text-muted">
+                    — <?= htmlspecialchars($quote['author']); ?>
+                </small>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
 
 <!-- STAT GRID -->
 <div class="dashboard-grid">
