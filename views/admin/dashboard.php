@@ -1,10 +1,14 @@
 <?php
-session_start();
 require "../../config/db.php";
+require "../../config/jwt.php";
+require "../../vendor/autoload.php";
+require "../../functions/auth.php";
+require "../../functions/quote.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../auth/login.php");
-    exit;
+$user = auth();
+
+if ($user->role !== 'admin') {
+    die("Akses ditolak");
 }
 
 $title = "Dashboard";

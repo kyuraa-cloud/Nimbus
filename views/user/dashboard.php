@@ -1,16 +1,20 @@
 <?php
-session_start();
 require "../../config/db.php";
+require "../../config/jwt.php";
+require "../../vendor/autoload.php";
+require "../../functions/auth.php";
 require "../../functions/quote.php";
 
-if (!isset($_SESSION['user_id'])) {
+$user = auth();
+$userId = (int) $user->user_id;
+
+if ($user->role !== 'user') {
     header("Location: ../auth/login.php");
     exit;
 }
 
 $title = "Dashboard";
 $active = "dashboard";
-$userId = $_SESSION['user_id'];
 
 $quote = getRandomQuote();
 

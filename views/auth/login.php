@@ -1,6 +1,9 @@
 <?php
-session_start();
 require "../../config/db.php";
+require "../../config/jwt.php";
+require "../../vendor/autoload.php";
+
+use Firebase\JWT\JWT;
 
 $err = "";
 
@@ -11,16 +14,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $password = trim($_POST['password']);
 
     $q = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
-    
+
     if ($q && mysqli_num_rows($q) === 1) {
         $user = mysqli_fetch_assoc($q);
 
         if (password_verify($password, $user['password'])) {
 
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['name']    = $user['name'];
-            $_SESSION['role']    = $user['role'];
+            // PAYLOAD JWT
+            $payload = [
+                'user_id' => $user['id'],
+                'name'    => $user['name'],
+                'role'    => $user['role'],
+                'iat'     => time(),
+                'exp'     => time() + JWT_EXPIRE
+            ];
 
+            // GENERATE TOKEN
+            $token = JWT::encode($payload, JWT_SECRET, JWT_ALGO);
+
+            // SIMPAN TOKEN KE COOKIE
+            setcookie(
+                'token',
+                $token,
+                time() + JWT_EXPIRE,
+                '/',
+                '',
+                false,
+                true 
+            );
+
+            // REDIRECT SESUAI ROLE
             if ($user['role'] === 'admin') {
                 header("Location: ../admin/dashboard.php");
             } else {
